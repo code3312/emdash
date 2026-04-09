@@ -5,7 +5,10 @@
 	"compatibility_date": "2026-01-14",
 	// disable_nodejs_process_v2 needed until unenv fix lands in Pages
 	// See: https://github.com/withastro/astro/issues/14511
-	"compatibility_flags": ["nodejs_compat", "disable_nodejs_process_v2"],
+	"compatibility_flags": [
+		"nodejs_compat",
+		"disable_nodejs_process_v2"
+	],
 	// Static assets served from dist/
 	"routes": [
 		{
@@ -19,6 +22,12 @@
 		{
 			"binding": "DB",
 			"database_name": "emdash_db",
+		},
+		{
+			"binding": "emdash_demo",
+			"database_name": "emdash-demo",
+			"database_id": "60078c61-1797-4cee-a546-dda8ed78e681",
+			"remote": true
 		},
 	],
 	// R2 bucket for media storage
