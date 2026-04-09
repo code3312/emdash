@@ -40,8 +40,8 @@ export default defineConfig({
 			// session: "auto" enables read replicas (nearest replica for anon,
 			// bookmark-based consistency for authenticated users)
 			database: d1({ binding: "DB", session: "auto" }),
-			// R2 storage for media
-			storage: r2({ binding: "MEDIA" }),
+			// R2 storage for media (Commented out to deploy without R2)
+			// storage: r2({ binding: "MEDIA" }),
 			// Cloudflare Access authentication
 			// Reads CF_ACCESS_AUDIENCE from env (wrangler secret or .dev.vars)
 			auth: access({
