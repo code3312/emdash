@@ -42,18 +42,18 @@ export default defineConfig({
 			database: d1({ binding: "DB", session: "auto" }),
 			// R2 storage for media (Commented out to deploy without R2)
 			// storage: r2({ binding: "MEDIA" }),
-			// Cloudflare Access authentication
+			// Cloudflare Access authentication - DISABLED
 			// Reads CF_ACCESS_AUDIENCE from env (wrangler secret or .dev.vars)
-			auth: access({
-				teamDomain: "cloudflare-cto.cloudflareaccess.com",
-				autoProvision: true,
-				defaultRole: 30, // Author
-				// Map your IdP groups to roles (optional)
-				// roleMapping: {
-				// 	"Admins": 50,
-				// 	"Editors": 40,
-				// },
-			}),
+			// auth: access({
+			// 	teamDomain: "cloudflare-cto.cloudflareaccess.com",
+			// 	autoProvision: true,
+			// 	defaultRole: 30, // Author
+			// 	// Map your IdP groups to roles (optional)
+			// 	// roleMapping: {
+			// 	// 	"Admins": 50,
+			// 	// 	"Editors": 40,
+			// 	// },
+			// }),
 			// Media providers - Cloudflare Images and Stream
 			// Reads from env vars at runtime: CF_ACCOUNT_ID, CF_IMAGES_TOKEN, CF_STREAM_TOKEN
 			// Or customize with accountIdEnvVar/apiTokenEnvVar options
@@ -73,12 +73,12 @@ export default defineConfig({
 				// Test plugin that exercises all v2 APIs
 				formsPlugin(),
 			],
-			// Sandboxed plugins (run in isolated workers)
-			sandboxed: [webhookNotifierPlugin()],
-			// Sandbox runner for Cloudflare
-			sandboxRunner: sandbox(),
-			// Plugin marketplace
-			marketplace: "https://marketplace.emdashcms.com",
+			// Sandboxed plugins (run in isolated workers) - DISABLED for free tier
+			// sandboxed: [webhookNotifierPlugin()],
+			// Sandbox runner for Cloudflare - DISABLED for free tier
+			// sandboxRunner: sandbox(),
+			// Plugin marketplace - DISABLED for free tier as it requires sandboxRunner
+			// marketplace: "https://marketplace.emdashcms.com",
 		}),
 	],
 	experimental: {

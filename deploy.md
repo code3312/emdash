@@ -62,3 +62,18 @@ pnpm --filter @emdash-cms/demo-cloudflare run deploy
 Wrangler indicará los URL donde se ha publicado el servicio (`<proyecto>.<tu_usuario>.workers.dev`). 
 
 No es necesario generar o correr comandos de migración. EmDash detectará que su base de datos `emdash-demo` no tiene tablas (huérfana) al recibir la primera petición externa, y ejecutará las rutinas de SQLite de forma autónoma.
+
+---
+
+## 3. Limitaciones del Nivel Gratuito (Free Tier)
+
+Para publicar el repositorio sin tener un método de pago introducido en Cloudflare (100% gratis), existen dos características arquitectónicas de EmDash que deben deshabilitarse.
+
+### A. Almacenamiento Multimedia (Cloudflare R2)
+EmDash utiliza **R2** Object Storage para almacenar todo el contenido local y multimedia que subas. Cloudflare exige tener una tarjeta de crédito para activar R2 (aunque su capa gratuita ofrece 10 GB al mes sin costo).
+- Si no pones una tarjeta en tu cuenta, Wrangler arrojará el error `[code: 10042]`.
+- **Solución provisoria (Solo CMS estático):** Eliminar el bloque de configuración `"r2_buckets"` entero en `wrangler.jsonc` y comentar la línea `storage: r2({ binding: "MEDIA" })` en el `astro.config.mjs`. El CMS operará perfectamente obviando la subida de medios.
+
+### B. Sandboxing de Plugins (Dynamic Workers)
+EmDash ejecuta plugins en un worker aislado ("sandboxing") vía peticiones RPC a través de `worker_loaders`. Cloudflare exige estar en el **plan de pago (Paid Plan)** para usar "Dynamic Dispatch". Si ejecutas el despliegue estándar estando en un plan gratuito, Cloudflare te dará un error de restricción de plan de pago `[code: 10195]`.
+- **Solución provisoria (Desactivar Sandbox):** Eliminar el bloque `"worker_loaders"` de `wrangler.jsonc` y deshabilitar (comentar) `sandboxed` y `sandboxRunner` de la configuración de Astro (`astro.config.mjs`). Al deshabilitar el Sandbox, también estarás obligado a comentar el `marketplace` en `astro.config.mjs`, ya que descargar plugins remotos requiere obligatoriamente una caja de arena por cuestiones de seguridad. Esto desactivará la capacidad de separar los plugins en procesos distintos y el marketplace en línea.

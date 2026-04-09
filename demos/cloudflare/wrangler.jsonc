@@ -9,14 +9,7 @@
 		"nodejs_compat",
 		"disable_nodejs_process_v2"
 	],
-	// Static assets served from dist/
-	"routes": [
-		{
-			"pattern": "demo.emdashcms.com",
-			"zone_name": "demo.emdashcms.com",
-			"custom_domain": true,
-		},
-	],
+
 	// D1 Database binding
 	"d1_databases": [
 		{
@@ -35,10 +28,11 @@
 	"observability": {
 		"enabled": true,
 	},
-	// Worker Loader for plugin sandboxing
-	"worker_loaders": [
+	// Explicit KV Namespace to avoid auto-provisioning collision bug
+	"kv_namespaces": [
 		{
-			"binding": "LOADER",
-		},
-	],
+			"binding": "SESSION",
+			"id": "ec9f53a5ef12470f9ae16478390b5687"
+		}
+	]
 }
